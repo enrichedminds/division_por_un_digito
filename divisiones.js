@@ -5,6 +5,7 @@ let timer;
 let selectedTable;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
+let incorrectDivisions = []; // Lista para almacenar divisiones incorrectas
 
 function startGame(table) {
     selectedTable = table;
@@ -12,6 +13,7 @@ function startGame(table) {
     timeRemaining = 60;
     correctAnswers = 0;
     incorrectAnswers = 0;
+    incorrectDivisions = []; // Reinicia la lista de incorrectas
     document.getElementById('selectionScreen').style.display = 'none';
     document.getElementById('gameScreen').style.display = 'block';
     document.getElementById('score').textContent = `Puntaje: ${score}`;
@@ -58,6 +60,8 @@ function checkAnswer(target) {
         feedback.textContent = "Incorrecto.";
         feedback.style.color = "red";
         incorrectAnswers++;
+        // Almacena la división incorrecta
+        incorrectDivisions.push(`${num1} ÷ ${num2} = ${correctAnswer} (Tu respuesta: ${userAnswer})`);
     }
 
     document.getElementById('score').textContent = `Puntaje: ${score}`;
@@ -85,6 +89,19 @@ function endGame() {
     document.getElementById('correctAnswers').textContent = correctAnswers;
     document.getElementById('incorrectAnswers').textContent = incorrectAnswers;
     document.getElementById('accuracy').textContent = accuracy;
+
+    // Muestra divisiones incorrectas
+    const incorrectList = document.getElementById('incorrectList');
+    incorrectList.innerHTML = ""; // Limpia la lista
+    if (incorrectDivisions.length > 0) {
+        incorrectDivisions.forEach(division => {
+            const listItem = document.createElement('li');
+            listItem.textContent = division;
+            incorrectList.appendChild(listItem);
+        });
+    } else {
+        incorrectList.innerHTML = "<li>No hubo respuestas incorrectas</li>";
+    }
 
     document.getElementById('resultScreen').style.display = 'flex';
 }
