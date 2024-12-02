@@ -28,15 +28,15 @@ body {
 
 /* Botones */
 .button-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    display: grid; /* Cambiado a grid */
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 20px; /* Espacio entre botones */
+    justify-items: center; /* Centra los botones horizontalmente */
     max-width: 600px;
 }
 
 .table-button {
-    width: 200px; /* Incrementa el tamaño del botón */
+    width: 180px; /* Tamaño flexible */
     padding: 15px;
     font-size: 18px;
     border: 2px solid #007BFF;
@@ -104,4 +104,16 @@ body {
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
+}
+
+/* Media Queries para dispositivos móviles */
+@media (max-width: 768px) {
+    .button-container {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+        gap: 15px; /* Reduce el espacio entre botones */
+    }
+
+    .table-button {
+        width: 90%; /* Ajusta el tamaño de los botones al ancho del contenedor */
+    }
 }
