@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Práctica de División</title>
+    <title>División Interactiva - Selección de Tablas</title>
     <link rel="stylesheet" href="divisiones.css">
 </head>
 <body>
     <!-- Pantalla de selección -->
     <div id="selectionScreen">
-        <h1>Seleccione la división que desea practicar:</h1>
+        <h1>Seleccione la tabla que desea practicar:</h1>
         <div class="button-container">
             <button class="table-button" onclick="startGame(1)">División por 1</button>
             <button class="table-button" onclick="startGame(2)">División por 2</button>
@@ -40,17 +40,21 @@
     </div>
 
     <!-- Pantalla de resultados -->
-    <div id="resultScreen" style="display: none;">
+    <div id="resultScreen" style="display: none; text-align: center;">
         <h1>Resultados Finales</h1>
         <div id="resultDetails" style="margin-top: 20px;">
             <p>Contestaciones Correctas: <span id="correctAnswers"></span></p>
             <p>Contestaciones Incorrectas: <span id="incorrectAnswers"></span></p>
             <p>Por ciento de Correctas: <span id="accuracy"></span>%</p>
-            <h2>Divisiones Incorrectas:</h2>
-            <ul id="incorrectList"></ul> <!-- Lista de divisiones incorrectas -->
+            <h2>Respuestas Incorrectas:</h2>
+            <ul id="incorrectList"></ul> <!-- Lista de respuestas incorrectas -->
         </div>
         <button class="back-button" onclick="returnToMenu()">Regresar al Menú</button>
     </div>
+
+    <!-- Archivos de audio -->
+    <audio id="correctSound" src="https://www.soundjay.com/button/beep-07.mp3"></audio>
+    <audio id="incorrectSound" src="https://www.soundjay.com/button/beep-10.mp3"></audio>
 
     <!-- Archivo JavaScript -->
     <script src="divisiones.js"></script>

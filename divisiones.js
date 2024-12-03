@@ -1,11 +1,11 @@
 let num1, num2, correctAnswer;
-let score = 0;
-let timeRemaining = 60;
+let score = 0; // Puntaje total
+let timeRemaining = 60; // Tiempo límite en segundos
 let timer;
 let selectedTable;
-let correctAnswers = 0;
-let incorrectAnswers = 0;
-let incorrectDivisions = []; // Lista para almacenar divisiones incorrectas
+let correctAnswers = 0; // Contador de respuestas correctas
+let incorrectAnswers = 0; // Contador de respuestas incorrectas
+let incorrectResponses = []; // Lista para almacenar respuestas incorrectas
 
 function startGame(table) {
     selectedTable = table;
@@ -13,11 +13,12 @@ function startGame(table) {
     timeRemaining = 60;
     correctAnswers = 0;
     incorrectAnswers = 0;
-    incorrectDivisions = []; // Reinicia la lista de incorrectas
+    incorrectResponses = []; // Reinicia respuestas incorrectas
     document.getElementById('selectionScreen').style.display = 'none';
     document.getElementById('gameScreen').style.display = 'block';
     document.getElementById('score').textContent = `Puntaje: ${score}`;
     document.getElementById('timer').textContent = `Tiempo: ${timeRemaining}s`;
+    document.getElementById('feedback').textContent = ''; // Limpia el feedback al iniciar
     generateQuestion();
     startTimer();
 }
@@ -25,11 +26,10 @@ function startGame(table) {
 function generateQuestion() {
     num2 = selectedTable === 'mixed' ? Math.floor(Math.random() * 9) + 1 : selectedTable;
     const quotient = Math.floor(Math.random() * 10) + 1;
-    num1 = num2 * quotient;
+    num1 = num2 * quotient; // Genera un múltiplo para asegurar que sea divisible
     correctAnswer = quotient;
 
-    const options = new Set();
-    options.add(correctAnswer);
+    const options = new Set([correctAnswer]);
 
     while (options.size < 4) {
         const option = Math.floor(Math.random() * 10) + 1;
@@ -50,7 +50,6 @@ function generateQuestion() {
 function checkAnswer(target) {
     const userAnswer = parseInt(target.textContent);
     const feedback = document.getElementById('feedback');
-
     if (userAnswer === correctAnswer) {
         feedback.textContent = "¡Correcto!";
         feedback.style.color = "green";
@@ -60,10 +59,8 @@ function checkAnswer(target) {
         feedback.textContent = "Incorrecto.";
         feedback.style.color = "red";
         incorrectAnswers++;
-        // Almacena la división incorrecta
-        incorrectDivisions.push(`${num1} ÷ ${num2} = ${correctAnswer} (Tu respuesta: ${userAnswer})`);
+        incorrectResponses.push(`${num1} ÷ ${num2} = ${correctAnswer} (Tu respuesta: ${userAnswer})`);
     }
-
     document.getElementById('score').textContent = `Puntaje: ${score}`;
     generateQuestion();
 }
@@ -72,7 +69,6 @@ function startTimer() {
     timer = setInterval(() => {
         timeRemaining--;
         document.getElementById('timer').textContent = `Tiempo: ${timeRemaining}s`;
-
         if (timeRemaining <= 0) {
             clearInterval(timer);
             endGame();
@@ -90,13 +86,12 @@ function endGame() {
     document.getElementById('incorrectAnswers').textContent = incorrectAnswers;
     document.getElementById('accuracy').textContent = accuracy;
 
-    // Muestra divisiones incorrectas
     const incorrectList = document.getElementById('incorrectList');
     incorrectList.innerHTML = ""; // Limpia la lista
-    if (incorrectDivisions.length > 0) {
-        incorrectDivisions.forEach(division => {
+    if (incorrectResponses.length > 0) {
+        incorrectResponses.forEach(response => {
             const listItem = document.createElement('li');
-            listItem.textContent = division;
+            listItem.textContent = response;
             incorrectList.appendChild(listItem);
         });
     } else {
@@ -107,6 +102,7 @@ function endGame() {
 }
 
 function returnToMenu() {
+    clearInterval(timer);
     document.getElementById('gameScreen').style.display = 'none';
     document.getElementById('resultScreen').style.display = 'none';
     document.getElementById('selectionScreen').style.display = 'flex';
